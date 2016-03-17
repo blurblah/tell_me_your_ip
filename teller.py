@@ -50,5 +50,5 @@ if __name__ == "__main__":
     logging.debug("My chat id: %s", chatId)
 
     bot = telepot.Bot(token)
-    bot.sendMessage(chatId, ipAddress)
+    bot.sendMessage(chatId, "My IP is %s" % ipAddress)
     logging.info("Message is sent.")

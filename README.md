@@ -4,25 +4,23 @@ Booting 시점에 Device의 IP를 telegram으로 전송하는 기능을 수행�
 Prerequisite
 ------------
 Python3
+
 telepot (python module)
-netifaces (python module)
+
+~~netifaces (python module)~~
 Install
 -------
-Python3와 python3-pip가 설치된 상태에서 telepot와 netifaces를 설치한다.
+Python3와 python3-pip가 설치된 상태에서 telepot를 설치한다.
 #### OS X
 ```
 sudo pip3 install telepot
 sudo pip3 install telepot --upgrade
-
-sudo pip3 install netifaces
 ```
 #### Raspbian
 pip-3.2 설치된 상태
 ```
 sudo pip-3.2 install telepot
 sudo pip-3.2 install telepot --upgrade
-
-sudo pip-3.2 install netifaces
 ```
 Usage
 -----
@@ -46,3 +44,7 @@ https://github.com/nickoala/telepot#installation
 https://pypi.python.org/pypi/netifaces
 
 https://core.telegram.org/bots
+History
+-------
+#### 2016-03-18
+Removed netifaces library

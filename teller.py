@@ -5,7 +5,7 @@ import time
 import telepot
 import config
 import sys
-import netifaces
+import socket
 
 def isConnected(url):
     connected = False
@@ -37,11 +37,9 @@ if __name__ == "__main__":
 
     logging.info("Connected to url %s", url)
 
-    addresses = []
-    for nif in netifaces.interfaces():
-        addressInfo = "Interface:%s Address:%s" % (nif, netifaces.ifaddresses(nif))
-        logging.info(addressInfo)
-        addresses.append(addressInfo)
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(('8.8.8.8', 1))
+    ipAddress = s.getsockname()[0]
 
     config = config.TelegramConfig()
     config.load(sys.argv[1])
@@ -52,5 +50,5 @@ if __name__ == "__main__":
     logging.debug("My chat id: %s", chatId)
 
     bot = telepot.Bot(token)
-    bot.sendMessage(chatId, addresses)
+    bot.sendMessage(chatId, ipAddress)
     logging.info("Message is sent.")

@@ -7,20 +7,23 @@ import config
 import sys
 import socket
 
-def isConnected(url):
+
+def is_connected(url_string):
     connected = False
     try:
-        response = urllib.request.urlopen(url, timeout=5)
+        urllib.request.urlopen(url_string, timeout=5)
         connected = True
     except Exception as e:
         logging.error(e)
 
     return connected
 
-def retrieveIp():
+
+def retrieve_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(('8.8.8.8', 1))
     return s.getsockname()[0]
+
 
 def usage():
     print("Usage : python3 %s {config file}" % sys.argv[0])
@@ -36,13 +39,13 @@ if __name__ == "__main__":
 
     url = "https://telegram.me/tell_me_your_ip_bot"
 
-    while isConnected(url) == False:
+    while not is_connected(url):
         logging.info("Not connected.")
         time.sleep(10)
 
     logging.info("Connected to url %s", url)
 
-    ip = retrieveIp()
+    ip = retrieve_ip()
 
     config = config.TelegramConfig()
     config.load(sys.argv[1])

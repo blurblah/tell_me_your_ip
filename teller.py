@@ -10,12 +10,17 @@ import socket
 def isConnected(url):
     connected = False
     try:
-        response = urllib.request.urlopen(url, timeout=1)
+        response = urllib.request.urlopen(url, timeout=5)
         connected = True
     except Exception as e:
         logging.error(e)
 
     return connected
+
+def retrieveIp():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(('8.8.8.8', 1))
+    return s.getsockname()[0]
 
 def usage():
     print("Usage : python3 %s {config file}" % sys.argv[0])
@@ -37,9 +42,7 @@ if __name__ == "__main__":
 
     logging.info("Connected to url %s", url)
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(('8.8.8.8', 1))
-    ipAddress = s.getsockname()[0]
+    ip = retrieveIp()
 
     config = config.TelegramConfig()
     config.load(sys.argv[1])
@@ -50,5 +53,5 @@ if __name__ == "__main__":
     logging.debug("My chat id: %s", chatId)
 
     bot = telepot.Bot(token)
-    bot.sendMessage(chatId, "My IP is %s" % ipAddress)
+    bot.sendMessage(chatId, "My IP is %s" % ip)
     logging.info("Message is sent.")

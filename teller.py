@@ -2,10 +2,8 @@
 import logging
 import urllib.request
 import time
-import telepot
-import config
 import sys
-import socket
+import bot
 
 
 def is_connected(url_string):
@@ -19,14 +17,9 @@ def is_connected(url_string):
     return connected
 
 
-def retrieve_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(('8.8.8.8', 1))
-    return s.getsockname()[0]
-
-
 def usage():
     print("Usage : python3 %s {config file}" % sys.argv[0])
+
 
 if __name__ == "__main__":
     logging.basicConfig(#filename='teller.log',
@@ -37,6 +30,7 @@ if __name__ == "__main__":
         usage()
         sys.exit(1)
 
+    config_file = sys.argv[1]
     url = "https://telegram.me/tell_me_your_ip_bot"
 
     while not is_connected(url):
@@ -45,16 +39,5 @@ if __name__ == "__main__":
 
     logging.info("Connected to url %s", url)
 
-    ip = retrieve_ip()
-
-    config = config.TelegramConfig()
-    config.load(sys.argv[1])
-    token = config.token
-    chatId = config.myChatId
-
-    logging.debug("Telegram bot token: %s", token)
-    logging.debug("My chat id: %s", chatId)
-
-    bot = telepot.Bot(token)
-    bot.sendMessage(chatId, "My IP is %s" % ip)
-    logging.info("Message is sent.")
+    telegram_bot = bot.TelegramBotHandler(config_file)
+    telegram_bot.start()

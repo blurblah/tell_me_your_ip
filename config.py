@@ -15,4 +15,3 @@ class TelegramConfig:
         config = configparser.ConfigParser()
         config.read(config_file)
         self.token = config.get("Telegram", "bot_token")
-        self.myChatId = config.get("Telegram", "my_chat_id")

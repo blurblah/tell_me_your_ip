@@ -24,13 +24,13 @@ class TelegramBotHandler:
 
     def start(self):
         if self.bot is not None:
-            self.bot.notifyOnMessage(self.handle_message)
+            self.bot.message_loop(self.handle_message)
             logging.info("Telegram bot started.")
             while True:
                 time.sleep(10)
 
     def handle_message(self, msg):
-        content_type, chat_type, chat_id = telepot.glance2(msg)
+        content_type, chat_type, chat_id = telepot.glance(msg)
         logging.debug(msg)
         logging.debug("content_type:%s chat_type:%s chat_id:%s" % (content_type, chat_type, chat_id));
 
